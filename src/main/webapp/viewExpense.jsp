@@ -10,7 +10,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% out.println("viewExpense.jsp loaded!"); %>
 
 <script type="text/javascript" class="init">
     $(document).ready(function () {
@@ -24,17 +23,6 @@
 <body>
 <div class="container-fluid">
 
-    <%
-        List<edu.matc.entity.Expense> expenses = (List<Expense>) request.getAttribute("expenses");
-        out.println("Expenses passed to JSP: " + (expenses != null ? expenses.size() : "null"));
-    %>
-
-    <%
-        Integer userId = (Integer) request.getAttribute("userId");
-    %>
-    <h2>
-        <%= (userId != null) ? "Expenses for User ID: " + userId : "All Expenses" %>
-    </h2>
     <a href="expense?action=add" class="btn btn-primary">Add New Expense</a>
 
     <table id="expenseTable" class="table table-striped table-bordered">

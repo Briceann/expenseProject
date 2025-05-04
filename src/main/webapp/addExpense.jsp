@@ -32,11 +32,6 @@
         </c:choose>
     </h2>
 
-    <!-- Debug Info -->
-    <p>DEBUG: categoryId param = ${param.categoryId}</p>
-    <p>DEBUG: userName = ${sessionScope.userName}</p>
-    <p>DEBUG: Category count = ${fn:length(categories)}</p>
-
     <form action="expense" method="post">
 
         <!-- Action & user identification -->

@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Keys{
 
-    @JsonProperty("keys")
-    private List<KeysItem> keys;
+	@JsonProperty("keys")
+	private List<KeysItem> keys;
 
-    public List<KeysItem> getKeys(){
-        return keys;
-    }
+	public List<KeysItem> getKeys(){
+		return keys;
+	}
 }
