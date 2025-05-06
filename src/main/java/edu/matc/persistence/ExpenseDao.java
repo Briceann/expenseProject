@@ -106,53 +106,74 @@ public class ExpenseDao {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Expense> query = builder.createQuery(Expense.class);
         Root<Expense> root = query.from(Expense.class);
-        query.select(root).where(builder.equal(root.get("user").get("userId"), userId));
+
+        query.select(root).where(builder.equal(root.get("user").get("userId"), userId)).orderBy(builder.desc(root.get("date")));
         List<Expense> expenses = session.createQuery(query).getResultList();
         logger.debug("Expenses for userId {}: {}", userId, expenses);
-        session.close();
+        //session.close();
         return expenses;
     }
 
-    public Map<String, Double> getExpenseCategoryTotalsByUser(int userId) {
+    public Map<String, Double> getAllCategoryTotalsForUser(int userId) {
         Session session = sessionFactory.openSession();
-        String hql = "SELECT e.category.name, SUM(e.amount) " +
-                "FROM Expense e WHERE e.user.userId = :userId GROUP BY e.category.name";
 
-        List<Object[]> results = session.createQuery(hql)
+        String sql = "SELECT c.name, COALESCE(SUM(e.amount), 0) " +
+                "FROM expense_categories c " +
+                "LEFT JOIN expenses e ON e.category_id = c.category_id AND e.user_id = :userId " +
+                "GROUP BY c.name";
+
+        List<Object[]> results = session.createNativeQuery(sql)
                 .setParameter("userId", userId)
                 .list();
-        session.close();
 
         Map<String, Double> totals = new LinkedHashMap<>();
         for (Object[] row : results) {
-            totals.put((String) row[0], (Double) row[1]);
+            totals.put((String) row[0], ((Number) row[1]).doubleValue());
         }
+
+        session.close();
         return totals;
     }
 
+
+//    public List<Expense> getRecentExpenses(int userId, int pastDays) {
+//        Session session = sessionFactory.openSession();
+//
+//        String sql = "SELECT * FROM expenses WHERE user_id = :userId AND date >= CURDATE() - INTERVAL :days DAY ORDER BY date DESC";
+//
+//        List<Expense> expenses = session.createNativeQuery(sql, Expense.class)
+//                .setParameter("userId", userId)
+//                .setParameter("days", pastDays)
+//                .list();
+//
+//        session.close();
+//        return expenses;
+//    }
+
     public List<Expense> getRecentExpenses(int userId, int pastDays) {
         Session session = sessionFactory.openSession();
-        LocalDate fromDate = LocalDate.now().minusDays(pastDays);
-
-        String hql = "FROM Expense e WHERE e.user.userId = :userId AND e.date >= :fromDate ORDER BY e.date DESC";
-        List<Expense> expenses = session.createQuery(hql)
-                .setParameter("userId", userId)
-                .setParameter("fromDate", fromDate)
-                .list();
+        List<Expense> test = session.createQuery("from Expense", Expense.class).list();
+        System.out.println("Found " + test.size() + " total expenses");
         session.close();
-        return expenses;
+        return test;
     }
 
     public List<Expense> getExpensesByCategory(int userId, String categoryName) {
         Session session = sessionFactory.openSession();
-        String hql = "FROM Expense e WHERE e.user.userId = :userId AND e.category.name = :categoryName";
-        List<Expense> expenses = session.createQuery(hql)
+
+        String sql = "SELECT e.* FROM expenses e " +
+                "JOIN expense_categories c ON e.category_id = c.category_id " +
+                "WHERE e.user_id = :userId AND c.name = :categoryName";
+
+        List<Expense> expenses = session.createNativeQuery(sql, Expense.class)
                 .setParameter("userId", userId)
                 .setParameter("categoryName", categoryName)
                 .list();
+
         session.close();
         return expenses;
     }
+
 
 
 

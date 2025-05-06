@@ -24,7 +24,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Save</button>
-        <a href="dashboard" class="btn btn-secondary">Cancel</a>
+        <a href="dashboard.jsp" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 </body>

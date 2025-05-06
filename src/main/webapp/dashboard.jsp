@@ -12,42 +12,52 @@
 <html>
 <head>
     <title>Dashboard</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .card-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
-        .card { flex: 1 1 200px; padding: 1rem; background: #1e1e1e; color: #fff; border-radius: 10px; }
-        .section-title { margin-top: 2rem; margin-bottom: 1rem; color: #fff; }
-        body { background-color: #121212; color: #fff; }
-        .filter-bar { margin-bottom: 1rem; }
+        body {
+            background-color: #121212;
+            color: #fff;
+        }
+        .card {
+            background-color: #1e1e1e;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+        }
+        .section-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1 class="my-4">Expense Tracker</h1>
+<div class="container mt-4">
+    <h1 class="mb-3">Expense Tracker</h1>
     <p>Logged in as: ${sessionScope.userName}</p>
 
     <!-- Quick Actions -->
-    <div class="mb-3">
-        <a href="expense?action=add" class="btn btn-success"> Add Expense</a>
-        <a href="addCategory.jsp" class="btn btn-secondary"> Add Category</a>
+    <div class="mb-4">
+        <a href="expense?action=add" class="btn btn-success me-2">Add Expense</a>
+        <a href="addCategory.jsp" class="btn btn-secondary me-2">Add Category</a>
         <a href="expense?action=view" class="btn btn-secondary">View Expenses</a>
     </div>
-    <p>categoryTotals: <c:out value="${categoryTotals}" /></p>
-    <!-- Categories Overview -->
+
+    <!-- Category Totals Cards -->
     <h3 class="section-title">Categories</h3>
-    <div class="card-grid">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         <c:forEach var="entry" items="${categoryTotals}">
-            <div class="card">
-                <h5>${entry.key}</h5>
-                <p>$${entry.value}</p>
+            <div class="col">
+                <div class="card h-100 p-3">
+                    <h5 class="card-title">${entry.key}</h5>
+                    <p class="card-text">$${entry.value}</p>
+                </div>
             </div>
         </c:forEach>
     </div>
-    <p>recentExpenses: <c:out value="${recentExpenses}" /></p>
+
     <!-- Recent Expenses -->
     <h3 class="section-title">Today</h3>
-    <div class="filter-bar">
+    <div class="filter-bar mb-2">
         <select class="form-select w-25 d-inline">
             <option selected>Past Week</option>
             <option>Past Day</option>
@@ -57,7 +67,11 @@
 
     <table class="table table-dark table-striped">
         <thead>
-        <tr><th>Name</th><th>Amount</th><th>Date</th></tr>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
         </thead>
         <tbody>
         <c:forEach var="expense" items="${recentExpenses}">
@@ -69,28 +83,6 @@
         </c:forEach>
         </tbody>
     </table>
-
-    <!-- Spending Totals by Category (Table instead of Chart) -->
-    <h3 class="section-title mt-5">Spending by Category</h3>
-    <div class="bg-light p-3 rounded mt-4 text-dark">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Category</th>
-                <th>Total Spent ($)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="entry" items="${categoryTotals}">
-                <tr>
-                    <td>${entry.key}</td>
-                    <td>${entry.value}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-
 </div>
 </body>
 </html>
