@@ -27,13 +27,13 @@
     <h1 class="my-4">Expense Tracker</h1>
     <p>Logged in as: ${sessionScope.userName}</p>
 
-
     <!-- Quick Actions -->
     <div class="mb-3">
         <a href="expense?action=add" class="btn btn-success"> Add Expense</a>
         <a href="addCategory.jsp" class="btn btn-secondary"> Add Category</a>
+        <a href="expense?action=view" class="btn btn-secondary">View Expenses</a>
     </div>
-
+    <p>categoryTotals: <c:out value="${categoryTotals}" /></p>
     <!-- Categories Overview -->
     <h3 class="section-title">Categories</h3>
     <div class="card-grid">
@@ -44,7 +44,7 @@
             </div>
         </c:forEach>
     </div>
-
+    <p>recentExpenses: <c:out value="${recentExpenses}" /></p>
     <!-- Recent Expenses -->
     <h3 class="section-title">Today</h3>
     <div class="filter-bar">
@@ -70,50 +70,26 @@
         </tbody>
     </table>
 
+    <!-- Spending Totals by Category (Table instead of Chart) -->
     <h3 class="section-title mt-5">Spending by Category</h3>
     <div class="bg-light p-3 rounded mt-4 text-dark">
-        <canvas id="categoryChart"></canvas>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Category</th>
+                <th>Total Spent ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="entry" items="${categoryTotals}">
+                <tr>
+                    <td>${entry.key}</td>
+                    <td>${entry.value}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Build chart data from JSP
-        const categoryLabels = [];
-        const categoryData = [];
-
-        <c:forEach var="entry" items="${categoryTotals}">
-        categoryLabels.push("${entry.key}");
-        categoryData.push(${entry.value});
-        </c:forEach>
-
-        const ctx = document.getElementById('categoryChart').getContext('2d');
-        const categoryChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: categoryLabels,
-                datasets: [{
-                    label: 'Total Spent',
-                    data: categoryData,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)'
-                    ],
-                    borderColor: '#222',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'bottom' },
-                    title: { display: false }
-                }
-            }
-        });
-    </script>
 
 </div>
 </body>

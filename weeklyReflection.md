@@ -35,3 +35,7 @@
 ### Week 9
 * march 18th - Working on my JSPs to get user and expenses to work on the browser - 5 hours
 * still working to fix errors and get project working...3hrs
+
+### Week 13
+* Fixed jsp errors and created the dashboard servlet and dashboard jsp.
+* Implemeted AWS cognito for user sign up and log in

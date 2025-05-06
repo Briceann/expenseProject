@@ -50,7 +50,6 @@ public class ExpenseDao {
         transaction.commit();
         logger.debug("Updating expense: " + expense.getExpenseId());
         session.close();
-        //logger.debug("New amount: " + amount + ", New desc: " + description);
     }
 
     /**

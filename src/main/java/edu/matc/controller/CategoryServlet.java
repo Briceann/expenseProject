@@ -21,7 +21,6 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.debug("doGet in CategoryServlet called");
         RequestDispatcher dispatcher = request.getRequestDispatcher("/addCategory.jsp");
         dispatcher.forward(request, response);
     }

@@ -18,12 +18,6 @@ public class UserServlet extends HttpServlet {
 
         UserDao userDao = new UserDao();
 
-//        if (request.getParameter("submit").equals("search")) {
-//            request.setAttribute("users", userDao.getByPropertyEqual("lastName", request.getParameter("searchTerm")));
-//        } else {
-//            request.setAttribute("users", userDao.getAllUsers());
-//        }
-
         String submit = request.getParameter("submit");
         if ("search".equals(submit)) {
             request.setAttribute("users", userDao.getByPropertyEqual("lastName", request.getParameter("searchTerm")));
