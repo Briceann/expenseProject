@@ -20,6 +20,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Handles expense-related operations for the expense tracker application.
+ * Servlet views all expenses or user-specific expenses
+ * Add a new expense
+ * Edit an existing expense
+ * Delete an expense
+ * Update an existing expense via POST
+ * The servlet uses DAO classes to interact with the database and stores data in request attributes
+ * to be displayed in corresponding JSPs.
+ */
 @WebServlet("/expense")
 public class ExpenseServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ExpenseServlet.class);
@@ -27,6 +37,9 @@ public class ExpenseServlet extends HttpServlet {
     private final ExpenseCategoryDao categoryDao = new ExpenseCategoryDao();
     private final UserDao userDao = new UserDao();
 
+    /**
+     * Handles GET requests for viewing, adding, editing, and deleting expenses.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,6 +64,9 @@ public class ExpenseServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Handles POST requests for adding or updating expenses.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,6 +79,10 @@ public class ExpenseServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Lists all expenses or filters by userId if provided.
+     * Populates request attributes: expenses, categories, and optionally userId.
+     */
     private void listExpenses(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userIdParam = request.getParameter("userId");
@@ -86,22 +106,20 @@ public class ExpenseServlet extends HttpServlet {
         request.getRequestDispatcher("/viewExpense.jsp").forward(request, response);
     }
 
+    /**
+     * Adds a new expense for the currently logged-in user based on session userName and categoryId.
+     */
     private void addExpense(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         Expense expense = null;
-
         // Log all request parameters for debugging
         Map<String, String[]> params = request.getParameterMap();
         params.forEach((key, val) -> logger.info("PARAM: " + key + " = " + Arrays.toString(val)));
 
         try {
-            //  Get user by email or Cognito username
-            //String username = request.getParameter("userName");
             String cognitoUserName = (String) request.getSession().getAttribute("userName");
-            //String cognitoId = request.getParameter("userName");
             String email = (String) request.getSession().getAttribute("email");
-            //logger.debug("DEBUG: userName from form = " + cognitoId);
             logger.debug("DEBUG: Cognito username from session = " + cognitoUserName);
             logger.debug("DEBUG: Email from session = " + email);
 
@@ -111,6 +129,7 @@ public class ExpenseServlet extends HttpServlet {
                 return;
             }
 
+            // Ensure user exist in the DB
             List<User> users = userDao.getByPropertyEqual("username", cognitoUserName);
             User user;
             if (users.isEmpty()) {
@@ -121,12 +140,8 @@ public class ExpenseServlet extends HttpServlet {
                 user.setEmail(email != null? email : "placeholder@example.com"); // Set a placeholder or try to extract from token if available
                 user.setFirstName("New");
                 user.setLastName("User");
-
                 int newUserId = userDao.insert(user);
                 user.setUserId(newUserId);
-
-                //response.sendRedirect("expense?action=add");
-                //return;
             } else {
                 user = users.get(0);
             }
@@ -165,7 +180,10 @@ public class ExpenseServlet extends HttpServlet {
         }
     }
 
-
+    /**
+     * Deletes an expense by ID.
+     * If found, deletes and redirects to the expense list for the user.
+     */
     private void deleteExpense(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int expenseId = Integer.parseInt(request.getParameter("id"));
@@ -182,6 +200,10 @@ public class ExpenseServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Shows the form to edit an existing expense.
+     * Loads categories and the current expense to populate the form.
+     */
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int expenseId = Integer.parseInt(request.getParameter("id"));
@@ -200,6 +222,10 @@ public class ExpenseServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Shows the add expense form.
+     * Loads all available categories.
+     */
     private void showAddForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<ExpenseCategory> categories = categoryDao.getAllCategories();
@@ -209,11 +235,13 @@ public class ExpenseServlet extends HttpServlet {
     }
 
 
-
+    /**
+     * Updates an existing expense based on form input.
+     * If valid, updates fields and redirects back to the user's expense list.
+     */
     private void updateExpense(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.debug("userId param = " + request.getParameter("userId"));
-        logger.debug("expenseId param = " + request.getParameter("id"));
+        logger.info("Updating expense");
 
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));

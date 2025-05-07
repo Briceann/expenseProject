@@ -16,7 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Expense Dao class
+ * Expense Dao class for managing Expense entity operations using Hibernate.
+ *  Provides CRUD methods and custom queries such as:
+ *  Retrieving expenses by user
+ * Fetching total spent by category
+ * Getting recent or filtered expenses
+ *
  * @author Btaneh
  */
 public class ExpenseDao {
@@ -101,6 +106,12 @@ public class ExpenseDao {
         return expenses;
     }
 
+    /**
+     * Retrieves all expenses belonging to a specific user
+     *
+     * @param userId the user ID
+     * @return list of that user's expenses
+     */
     public List<Expense> getExpensesByUserId(int userId) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -114,6 +125,13 @@ public class ExpenseDao {
         return expenses;
     }
 
+    /**
+     * Retrieves total amount spent per category for a user.
+     * Includes categories with 0 spending using LEFT JOIN.
+     *
+     * @param userId the user ID
+     * @return map of category name to total spent amount
+     */
     public Map<String, Double> getAllCategoryTotalsForUser(int userId) {
         Session session = sessionFactory.openSession();
 
@@ -135,29 +153,34 @@ public class ExpenseDao {
         return totals;
     }
 
-
-//    public List<Expense> getRecentExpenses(int userId, int pastDays) {
-//        Session session = sessionFactory.openSession();
-//
-//        String sql = "SELECT * FROM expenses WHERE user_id = :userId AND date >= CURDATE() - INTERVAL :days DAY ORDER BY date DESC";
-//
-//        List<Expense> expenses = session.createNativeQuery(sql, Expense.class)
-//                .setParameter("userId", userId)
-//                .setParameter("days", pastDays)
-//                .list();
-//
-//        session.close();
-//        return expenses;
-//    }
-
+    /**
+     * Retrieves expenses for a user from the past X days.
+     *
+     * @param userId the user ID
+     * @param pastDays number of days to look back
+     * @return list of recent expenses
+     */
     public List<Expense> getRecentExpenses(int userId, int pastDays) {
         Session session = sessionFactory.openSession();
-        List<Expense> test = session.createQuery("from Expense", Expense.class).list();
-        System.out.println("Found " + test.size() + " total expenses");
+
+        String sql = "SELECT * FROM expenses WHERE user_id = :userId AND date >= CURDATE() - INTERVAL :days DAY ORDER BY date DESC";
+
+        List<Expense> expenses = session.createNativeQuery(sql, Expense.class)
+                .setParameter("userId", userId)
+                .setParameter("days", pastDays)
+                .list();
+
         session.close();
-        return test;
+        return expenses;
     }
 
+    /**
+     * Retrieves expenses for a user filtered by category name.
+     *
+     * @param userId the user ID
+     * @param categoryName the category name
+     * @return list of expenses in that category
+     */
     public List<Expense> getExpensesByCategory(int userId, String categoryName) {
         Session session = sessionFactory.openSession();
 
@@ -173,8 +196,5 @@ public class ExpenseDao {
         session.close();
         return expenses;
     }
-
-
-
 
 }

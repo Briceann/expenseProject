@@ -16,7 +16,9 @@ import java.util.List;
 
 
 /**
- * UserDao class
+ * UserDao class for managing User entities using Hibernate.
+ * Supports basic CRUD operations and custom queries for filtering and eager loading.
+ * This class interacts with the User table in the database.
  * @author Btaneh
  */
 public class UserDao {
@@ -26,6 +28,8 @@ public class UserDao {
 
     /**
      * Get user by ID
+     * @param user_id the user ID
+     * @return the User entity
      */
     public User getUserById(int user_id) {
         Session session = sessionFactory.openSession();
@@ -37,6 +41,7 @@ public class UserDao {
     /**
      * insert a new user
      * @param user User to be inserted
+     * @return the generated user ID
      */
     public int insertUser(User user) {
         int user_id = 0;
@@ -47,6 +52,20 @@ public class UserDao {
         user_id = user.getUserId();
         session.close();
         return user_id;
+    }
+
+    /**
+     * Alternative insert method (uses save()).
+     * @param user the user to insert
+     * @return the generated id
+     */
+    public int insert(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(user);
+        transaction.commit();
+        session.close();
+        return user.getUserId();
     }
 
     /**
@@ -73,6 +92,10 @@ public class UserDao {
         session.close();
     }
 
+    /**
+     * Retrieves all users records from the database
+     * @return a list of all users
+     */
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
         HibernateCriteriaBuilder builder = session.getCriteriaBuilder();
@@ -85,16 +108,10 @@ public class UserDao {
 
     }
 
-    public int insert(User user) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(user);
-        transaction.commit();
-        session.close();
-        return user.getUserId();
-    }
-
-
+    /**
+     * Retrieves all users and eagerly loads their associated expenses.
+     * @return a list of users with their expenses populated
+     */
     public List<User> getAllUsersWithExpenses() {
         List<User> users = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
@@ -135,5 +152,3 @@ public class UserDao {
     }
 
 }
-
-
