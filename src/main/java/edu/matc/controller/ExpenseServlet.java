@@ -85,20 +85,17 @@ public class ExpenseServlet extends HttpServlet {
      */
     private void listExpenses(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userIdParam = request.getParameter("userId");
-        List<Expense> expenses;
 
-        if (userIdParam != null && !userIdParam.isEmpty()) {
-            int userId = Integer.parseInt(userIdParam);
-            expenses = expenseDao.getExpensesByUserId(userId);
-            request.setAttribute("userId", userId);
-            logger.info("Viewing expenses for userId=" + userId);
-        } else {
-            expenses = expenseDao.getAllExpenses();
-            logger.info("Viewing all expenses");
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+
+        if (userId == null) {
+            logger.warn("User ID not found in session. Redirecting to login.");
+            response.sendRedirect("logIn");
+            return;
         }
 
         // Always load categories for the form
+        List<Expense> expenses = expenseDao.getExpensesByUserId(userId);
         List<ExpenseCategory> categories = categoryDao.getAllCategories();
         request.setAttribute("categories", categories);
         request.setAttribute("expenses", expenses);
