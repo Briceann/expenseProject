@@ -126,7 +126,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 return;
             }
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard"); //changed from .jsp
         dispatcher.forward(req, resp);
 
     }

@@ -100,7 +100,7 @@
     <div class="mb-3 d-flex justify-content-between">
         <div>
             <a href="expense?action=add" class="btn btn-success me-2">Add New Expense</a>
-            <a href="dashboard.jsp" class="btn btn-outline-secondary">Back to Dashboard</a>
+            <a href="dashboard" class="btn btn-outline-secondary">Back to Dashboard</a>
         </div>
     </div>
 
