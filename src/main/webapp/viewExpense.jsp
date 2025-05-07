@@ -61,9 +61,9 @@
 
         /* Fix text input (search box) */
         .dataTables_wrapper .dataTables_filter input {
-            background-color: #1e1e1e;
-            color: #fff;
-            border: 1px solid #444;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
         }
 
         /* Fix select box (entries dropdown) */
