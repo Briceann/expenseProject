@@ -38,4 +38,15 @@
 
 ### Week 13
 * Fixed jsp errors and created the dashboard servlet and dashboard jsp.
+* Created servlet for adding category, and redenring unto the dashboard
 * Implemeted AWS cognito for user sign up and log in
+
+### Week 14
+* Refactoring code to use servlet mapping instead of jsp but kept getting a 404 error
+* Modified page styling to see what would look good on the page
+* changed expense view on the dashboard from a chart to a table
+* added an error page
+
+### Week 15
+* Got the servlet mapping working after changing the import statement
+* 

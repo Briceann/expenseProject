@@ -163,12 +163,14 @@ public class ExpenseDao {
     public List<Expense> getRecentExpenses(int userId, int pastDays) {
         Session session = sessionFactory.openSession();
 
-        String sql = "SELECT * FROM expenses WHERE user_id = :userId AND date >= CURDATE() - INTERVAL " + pastDays + " DAY ORDER BY date DESC";
+        String sql = "SELECT * FROM expenses WHERE user_id = :userId " +
+                "AND DATE(date) >= CURDATE() - INTERVAL " + pastDays +
+                " DAY ORDER BY date DESC";
 
         List<Expense> expenses = session.createNativeQuery(sql, Expense.class)
                 .setParameter("userId", userId)
-                .setParameter("days", pastDays)
-                .list();
+                //.setParameter("days", pastDays)
+                .getResultList();
 
         session.close();
         return expenses;

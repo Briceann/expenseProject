@@ -2,6 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="head.jsp"%>
+<%@ include file="includes/nav.jsp" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: thelmawendy
@@ -13,9 +15,6 @@
 <html>
 <head>
     <title>View Expenses</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
     <style>
         body {
             background-color: #121212;
@@ -79,11 +78,7 @@
         }
 
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script
-            src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script
-            src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#expenseTable').DataTable({

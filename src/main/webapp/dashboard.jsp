@@ -11,8 +11,8 @@
 
 <html>
 <head>
+    <%@include file="head.jsp"%>
     <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #121212;
@@ -31,16 +31,9 @@
     </style>
 </head>
 <body>
+
 <div class="container mt-4">
     <h1 class="mb-3">Expense Tracker</h1>
-    <p>Logged in as: ${sessionScope.userName}</p>
-
-    <!-- Quick Actions -->
-    <div class="mb-4">
-        <a href="expense?action=add" class="btn btn-success me-2">Add Expense</a>
-        <a href="addCategory.jsp" class="btn btn-secondary me-2">Add Category</a>
-        <a href="expense?action=view" class="btn btn-secondary">View Expenses</a>
-    </div>
 
     <!-- Category Totals Cards -->
     <h3 class="section-title">Categories</h3>
