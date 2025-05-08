@@ -8,8 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="includes/nav.jsp" %>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <%@include file="head.jsp"%>
     <title>Dashboard</title>
@@ -31,7 +31,6 @@
     </style>
 </head>
 <body>
-
 <div class="container mt-4">
     <h1 class="mb-3">Expense Tracker</h1>
 

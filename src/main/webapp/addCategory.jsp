@@ -6,11 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="head.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="includes/nav.jsp" %>
 
 <html>
 <head>
+    <%@include file="head.jsp"%>
     <title>Add Category</title>
 </head>
 <body class="bg-dark text-light">

@@ -1,7 +1,6 @@
 <%@ page import="edu.matc.entity.Expense" %>
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="head.jsp"%>
 <%@ include file="includes/nav.jsp" %>
 
 <%--
@@ -14,6 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <%@include file="head.jsp"%>
     <title>View Expenses</title>
     <style>
         body {
@@ -32,6 +32,10 @@
             color: #ccc;
         }
         .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .btn-outline-primary:hover, .btn-outline-secondary:hover {
             background-color: #0d6efd;
             color: white;
         }

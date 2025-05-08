@@ -5,15 +5,15 @@
   Time: 4:32 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="head.jsp"%>
 <%@ include file="includes/nav.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%@include file="head.jsp"%>
     <title>
         <c:choose>
             <c:when test="${expense != null}">Edit Expense</c:when>
