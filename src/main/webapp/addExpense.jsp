@@ -50,21 +50,21 @@
         <!-- Amount -->
         <div class="mb-3">
             <label for="amount" class="form-label">Amount</label>
-            <input type="number" step="0.01" class="form-control" name="amount"
+            <input type="number" id="amount" step="0.01" class="form-control" name="amount"
                    value="${expense != null ? expense.amount : ''}" required />
         </div>
 
         <!-- Date -->
         <div class="mb-3">
             <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" name="date"
+            <input type="date" id="date" class="form-control" name="date"
                    value="${expense != null ? expense.date : ''}" required />
         </div>
 
         <!-- Category Dropdown -->
         <div class="mb-3">
             <label for="categoryId" class="form-label">Category</label>
-            <select name="categoryId" class="form-select" required>
+            <select name="categoryId" id="categoryId" class="form-select" required>
                 <option value="" disabled
                         <c:if test="${expense == null}">selected</c:if>>-- Select Category --</option>
 
@@ -82,7 +82,7 @@
         <!-- Description -->
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" name="description"
+            <input type="text" id="description" class="form-control" name="description"
                    value="${expense != null ? expense.description : ''}" />
         </div>
 

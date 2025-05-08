@@ -20,7 +20,7 @@
     <form action="addCategory" method="post" class="mt-4">
         <div class="mb-3">
             <label for="name" class="form-label">Category Name</label>
-            <input type="text" class="form-control" name="name" required>
+            <input type="text" id="name" class="form-control" name="name" required>
         </div>
 
         <button type="submit" class="btn btn-success">Save</button>
