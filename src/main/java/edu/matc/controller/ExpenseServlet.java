@@ -94,11 +94,22 @@ public class ExpenseServlet extends HttpServlet {
             return;
         }
 
+        String selectedCategory = request.getParameter("category");
+        List<Expense> expenses;
+
+        // Category filter when selected
+        if (selectedCategory != null && !selectedCategory.isEmpty()) {
+            expenses = expenseDao.getExpensesByCategory(userId, selectedCategory);
+            logger.info("Filtered expenses by category: " + selectedCategory);
+        } else {
+            expenses = expenseDao.getExpensesByUserId(userId);
+        }
+
         // Always load categories for the form
-        List<Expense> expenses = expenseDao.getExpensesByUserId(userId);
         List<ExpenseCategory> categories = categoryDao.getAllCategories();
         request.setAttribute("categories", categories);
         request.setAttribute("expenses", expenses);
+        request.setAttribute("userId", userId);
 
         request.getRequestDispatcher("/viewExpense.jsp").forward(request, response);
     }

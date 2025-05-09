@@ -27,4 +27,38 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+        .site-footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            font-size: 0.9rem;
+            padding: 1rem 0;
+        }
+
+        .site-footer a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+
 </head>

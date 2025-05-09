@@ -53,13 +53,25 @@ public class DashboardServlet extends HttpServlet {
 
        int userId = (int) userIdObj;
 
+        // Get days from request parameter, default to 7 (Past Week)
+        int days = 7;
+        String daysParam = request.getParameter("days");
+        if (daysParam != null) {
+            try {
+                days = Integer.parseInt(daysParam);
+            } catch (NumberFormatException e) {
+                // If parsing fails, keep default (7)
+            }
+        }
+
         // Fetch spending totals by category
         Map<String, Double> categoryTotals = expenseDao.getAllCategoryTotalsForUser(userId);
         request.setAttribute("categoryTotals", categoryTotals);
 
-        // Fetch expenses from the past 7 days
-        List<Expense> recentExpenses = expenseDao.getRecentExpenses(userId, 7);
+        // Fetch expenses from the past x days
+        List<Expense> recentExpenses = expenseDao.getRecentExpenses(userId, days);
         request.setAttribute("recentExpenses", recentExpenses);
+        request.setAttribute("selectedDays", days);
 
         // Forward the data to dashboard.jsp for display
         RequestDispatcher dispatcher = request.getRequestDispatcher("/dashboard.jsp"); //issue with dashboard mapping
