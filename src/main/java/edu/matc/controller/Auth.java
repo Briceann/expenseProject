@@ -92,9 +92,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 TokenResponse tokenResponse = getToken(authRequest);
                 userName = validate(tokenResponse);
                 req.getSession().setAttribute("userName", userName);
-                //req.setAttribute("userName", userName);
 
-                // === ADD THIS BLOCK ===
                 UserDao userDao = new UserDao();
                 List<User> users = userDao.getByPropertyEqual("username", userName);
                 User user;
@@ -114,7 +112,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 // Save userId to session for future use
                 req.getSession().setAttribute("userId", user.getUserId());
-                // === END BLOCK ===
+
 
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
