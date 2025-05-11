@@ -49,4 +49,4 @@
 
 ### Week 15
 * Got the servlet mapping working after changing the import statement
-* 
+* Finished styling using css and bootstrap
