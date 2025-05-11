@@ -93,7 +93,6 @@ public class ExpenseServlet extends HttpServlet {
             response.sendRedirect("logIn");
             return;
         }
-
         String selectedCategory = request.getParameter("category");
         List<Expense> expenses;
 

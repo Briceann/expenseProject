@@ -94,6 +94,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 req.getSession().setAttribute("userName", userName);
 
                 UserDao userDao = new UserDao();
+
+                //ToDo not returning a list of users......check if user is null
                 List<User> users = userDao.getByPropertyEqual("username", userName);
                 User user;
 
@@ -112,7 +114,6 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
                 // Save userId to session for future use
                 req.getSession().setAttribute("userId", user.getUserId());
-
 
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);

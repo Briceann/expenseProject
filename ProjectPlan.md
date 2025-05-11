@@ -37,28 +37,24 @@
 
 ## **Week 8**
 -[x] Develop Restful APIs for expense tracking
-- [ ] Implement Expense Dashboard
-- [ ] Add Charts/Reports like monthly breakdown etc.
-- [ ] Ensure UI fetches and displays database correctly
-- [ ] Implement Authentication
+- [x] Ensure UI fetches and displays database correctly
 
-## **Week 9**
--[ ] Deploy Application to AWS
-- [ ] Ensure at least one jsp display database data
-- [ ] Conduct Final Testing & Debugging
-- [ ] Push Final code to gitHub
-- [ ] Add link to my deployed application to the student repo in gitHub
-- [ ] Submit week 9 checkpoint
--[ ] Start team project
+## **Week 12**
+- [X] Ensure at least one jsp display database data
+- [x] Conduct Testing & Debugging
+
+## **Week 14**
+-[x] Implement Expense Dashboard
+- [x] Add table for monthly breakdown
+- [x] Implement Authentication
 
 ## **Week 15**
--[ ] Implement feedback from week 14
-- [ ] Final Presentation
-- [ ] Create video, add video link to readme.md
-- [ ] Finalize all documentation
-- [ ] Code Quality check
-- [ ] Weekly reflection
+-[x] Styling is bootstrap and css
+- [x] Worked on getting expense to show up on the dashboard
 
 ## **Week 16**
+- [ ] Finalize all documentation
 -[ ] Weekly reflection
 - [ ] Final touches before code complete
+- [ ] Final Presentation
+- [ ] Create video, add video link to readme.md

@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  * Provides access to the database
  * Created on 8/31/16.
@@ -18,6 +20,8 @@ import java.util.Properties;
  */
 
 public class Database {
+
+    private static final Logger logger = LogManager.getLogger(Database.class);
 
     // create an object of the class Database
     private static Database instance = new Database();
@@ -42,8 +46,8 @@ public class Database {
             }
             properties.load(inputStream);
         } catch (IOException e) {
-            System.err.println("Could not load database.properties file");
-            e.printStackTrace();
+            logger.error("Could not load database.properties file");
+
         }
     }
 
@@ -70,6 +74,7 @@ public class Database {
         try {
             Class.forName(properties.getProperty("driver"));
         } catch (ClassNotFoundException e) {
+            logger.error("Could not load JDBC driver");
             throw new Exception("Database.connect()... Error: MySQL Driver not found");
         }
 
@@ -83,8 +88,9 @@ public class Database {
         if (connection != null) {
             try {
                 connection.close();
+                logger.info("Connection closed");
             } catch (SQLException e) {
-                System.out.println("Cannot close connection" + e);
+                logger.error("Could not close connection");
             }
         }
 
@@ -118,11 +124,12 @@ public class Database {
                 else
                     sql += inputValue;
             }
+            logger.info("SQL executed");
 
         } catch (SQLException se) {
-            System.out.println("SQL Exception" + se);
+            logger.error("SQL Exception while executing sql");
         } catch (Exception e) {
-            System.out.println("Exception" + e);
+            logger.error("SQL Exception while running SQL");
         } finally {
             disconnect();
         }

@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "expense_categories")
 public class ExpenseCategory {
-    //private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

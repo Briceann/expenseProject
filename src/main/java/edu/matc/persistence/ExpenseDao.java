@@ -169,7 +169,6 @@ public class ExpenseDao {
 
         List<Expense> expenses = session.createNativeQuery(sql, Expense.class)
                 .setParameter("userId", userId)
-                //.setParameter("days", pastDays)
                 .getResultList();
 
         session.close();

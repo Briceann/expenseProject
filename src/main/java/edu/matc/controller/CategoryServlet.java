@@ -15,8 +15,6 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-
 /**
  * Handles both GET and POST requests for adding new expense categories.
  * Displays the form to add a new category (GET)
@@ -38,7 +36,6 @@ public class CategoryServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/addCategory.jsp");
         dispatcher.forward(request, response);
     }
-
     /**
      * Handles POST requests to insert a new category into the database.
      * Retrieves the category name from the form, creates a new ExpenseCategory object,

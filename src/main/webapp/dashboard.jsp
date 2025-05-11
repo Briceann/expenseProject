@@ -5,30 +5,14 @@
   Time: 3:07 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="taglib.jsp"%>
 <%@ include file="includes/nav.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <c:set var="title" value="Dashboard" />
     <%@include file="head.jsp"%>
     <title>Dashboard</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-        }
-        .card {
-            background-color: #1e1e1e;
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-        }
-        .section-title {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-    </style>
 </head>
 <body>
 <div class="wrapper">

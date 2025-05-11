@@ -87,10 +87,4 @@ public class UserDaoTest {
         assertEquals(1, users.size());
         assertEquals(2, users.get(0).getUserId());
     }
-
-    @AfterEach
-    void tearDown() {
-        // Log state after each test
-        List<User> users = userDao.getAllUsers();
-    }
 }

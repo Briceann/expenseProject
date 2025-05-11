@@ -1,6 +1,6 @@
 <%@ page import="edu.matc.entity.Expense" %>
 <%@ page import="java.util.List" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="taglib.jsp"%>
 <%@ include file="includes/nav.jsp" %>
 
 <%--
@@ -10,78 +10,10 @@
   Time: 2:19 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <%@include file="head.jsp"%>
     <title>View Expenses</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-        }
-        .table-dark thead th {
-            background-color: #1f1f1f;
-            color: #fff;
-        }
-        .table td, .table th {
-            vertical-align: middle;
-        }
-        .btn-outline-primary, .btn-outline-secondary {
-            border-color: #666;
-            color: #ccc;
-        }
-        .btn-outline-primary:hover {
-            background-color: #0d6efd;
-            color: white;
-        }
-        .btn-outline-primary:hover, .btn-outline-secondary:hover {
-            background-color: #0d6efd;
-            color: white;
-        }
-        .btn-danger, .btn-primary {
-            padding: 4px 10px;
-            font-size: 0.875rem;
-        }
-        .form-select, .form-control {
-            background-color: #1e1e1e;
-            color: #fff;
-            border-color: #333;
-        }
-        .card {
-            background-color: #1e1e1e;
-            padding: 20px;
-            border: none;
-            border-radius: 10px;
-        }
-        /* Fix text inside DataTables controls for dark mode */
-        .dataTables_wrapper .dataTables_length,
-        .dataTables_wrapper .dataTables_filter,
-        .dataTables_wrapper .dataTables_info,
-        .dataTables_wrapper .dataTables_paginate {
-            color: #f1f1f1;
-        }
-
-        /* Fix text input (search box) */
-        .dataTables_wrapper .dataTables_filter input {
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #ccc;
-        }
-
-        /* Fix select box (entries dropdown) */
-        .dataTables_wrapper .dataTables_length select {
-            background-color: #1e1e1e;
-            color: #fff;
-            border: 1px solid #444;
-        }
-        /* Brighten the filter label */
-        label.form-label {
-            color: #f1f1f1;
-            font-weight: 500;
-        }
-
-    </style>
 
     <script type="text/javascript">
         $(document).ready(function () {
