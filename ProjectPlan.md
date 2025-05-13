@@ -54,6 +54,7 @@
 - [x] Refactoring project to adhere to the feedback from check point 3
 
 ## **Week 16**
+- [x] Implemented the exchange rate API so a user can can get their amount in any currency they select
 - [ ] Finalize all documentation
 - [ ] Weekly reflection
 - [ ] Final touches before code complete

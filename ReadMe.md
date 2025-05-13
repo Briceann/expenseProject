@@ -9,9 +9,8 @@ lack essential features, or fail to provide insightful reports for better financ
 To address this issue, this project aims to develop a secure, user-friendly web application that
 enables users to log their expenses, categorize transactions, and generate reports for better financial
 management. The system will include authentication for data privacy, logging for monitoring activities,
-and essential features such as filtering, sorting, and graphic reports.By providing an efficient way
-to track spending habits, this application will help users make informed financial decisions and stay within
-their budget.
+and essential features such as filtering and sorting.By providing an efficient way to track spending habits, this 
+application will help users make informed financial decisions and stay within their budget.
 
 ### Technologies for Project
 1. Frontend
@@ -25,4 +24,4 @@ their budget.
 5. Logging: Log4j
 6. JUnit Testing
 7. AWS for hosting
-8. API-TBD
+8. API-Exchange Rates API

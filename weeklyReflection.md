@@ -50,3 +50,7 @@
 ### Week 15
 * Got the servlet mapping working after changing the import statement
 * Finished styling using css and bootstrap
+
+### Week 16
+* Implemented the exchange rate API so a user can can get their amount in any currency they select
+* Trying to refactor my code to use generic Dao

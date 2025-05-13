@@ -11,8 +11,6 @@
 * View Summary
   User can see a dashboard showing expenses for the current month and can filter to see weekly or daily
 * Generate reports
-  User can generate reports based on date and categories that wil be in a table format
+  Report will be generated based on date and categories that wil be in a table format
 * Log Out
   User can log out of application securely
-* Receive emails
-  User will receive emails for important activities like password change or exceeding budget
