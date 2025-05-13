@@ -1,8 +1,13 @@
 package edu.matc.controller;
 
 import edu.matc.entity.Expense;
+import edu.matc.persistence.ExchangeRatesDao;
 import edu.matc.persistence.ExpenseCategoryDao;
 import edu.matc.persistence.ExpenseDao;
+import edu.matc.rates.ExchangeRates;
+import edu.matc.util.CurrencyConverter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,6 +29,7 @@ import java.util.Map;
  */
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(DashboardServlet.class);
     private final ExpenseDao expenseDao = new ExpenseDao();
     private final ExpenseCategoryDao categoryDao = new ExpenseCategoryDao();
 
@@ -42,6 +48,7 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+
         // Retrieve user ID from session
       Object userIdObj = request.getSession().getAttribute("userId");
 
@@ -52,7 +59,6 @@ public class DashboardServlet extends HttpServlet {
        }
 
        int userId = (int) userIdObj;
-
         // Get days from request parameter, default to 7 (Past Week)
         int days = 7;
         String daysParam = request.getParameter("days");
@@ -70,6 +76,29 @@ public class DashboardServlet extends HttpServlet {
 
         // Fetch expenses from the past x days
         List<Expense> recentExpenses = expenseDao.getRecentExpenses(userId, days);
+
+        // Currency conversion logic
+        try {
+            // Get selected currency from request param, fallback to USD
+            String selectedCurrency = request.getParameter("currency");
+            if (selectedCurrency == null || selectedCurrency.isEmpty()) {
+                selectedCurrency = "USD";
+            }
+
+            ExchangeRates rates = new ExchangeRatesDao().getExchangeRates("USD");
+
+            for (Expense e : recentExpenses) {
+                double converted = CurrencyConverter.convert(e.getAmount(), rates, selectedCurrency);
+                e.setConvertedAmount(converted);
+            }
+
+            request.setAttribute("currencyCode", selectedCurrency);
+
+        } catch (Exception e) {
+            request.setAttribute("conversionError", "Could not convert currency.");
+            logger.error("Currency conversion failed", e);
+        }
+
         request.setAttribute("recentExpenses", recentExpenses);
         request.setAttribute("selectedDays", days);
 

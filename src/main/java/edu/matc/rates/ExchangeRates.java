@@ -313,7 +313,7 @@ public class ExchangeRates {
 	private Object rWF;
 
 	@JsonProperty("EUR")
-	private int eUR;
+	private Object eUR;
 
 	@JsonProperty("FOK")
 	private Object fOK;
@@ -1308,11 +1308,11 @@ public class ExchangeRates {
 		return rWF;
 	}
 
-	public void setEUR(int eUR){
+	public void setEUR(Object eUR){
 		this.eUR = eUR;
 	}
 
-	public int getEUR(){
+	public Object getEUR(){
 		return eUR;
 	}
 

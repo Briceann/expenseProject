@@ -42,20 +42,37 @@
             </select>
         </form>
 
+        <form method="get" action="dashboard">
+            <label for="currency">Display currency:</label>
+            <select name="currency" id="currency">
+                <option value="USD" ${currencyCode == 'USD' ? 'selected' : ''}>USD</option>
+                <option value="EUR" ${currencyCode == 'EUR' ? 'selected' : ''}>EUR</option>
+                <option value="JPY" ${currencyCode == 'JPY' ? 'selected' : ''}>JPY</option>
+                <option value="GBP" ${currencyCode == 'GBP' ? 'selected' : ''}>GBP</option>
+                <!-- Add more as needed -->
+            </select>
+
+            <input type="submit" value="Convert">
+        </form>
+
+
         <table class="table table-dark table-striped">
             <thead>
             <tr>
                 <th>Name</th>
                 <th>Amount</th>
                 <th>Date</th>
+                <th>Converted Amount</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="expense" items="${recentExpenses}">
                 <tr>
                     <td>${expense.description}</td>
-                    <td>$${expense.amount}</td>
+                    <td>$${expense.amount} USD</td>
                     <td>${expense.date}</td>
+                    <td>${expense.convertedAmount} ${currencyCode}</td>
+
                 </tr>
             </c:forEach>
             </tbody>

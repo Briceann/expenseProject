@@ -35,6 +35,7 @@ public class Expense {
     @Column(name = "description")
     private String description;
 
+    private transient double convertedAmount;
     /**
      * No-argument constructor
      */
@@ -143,6 +144,14 @@ public class Expense {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getConvertedAmount() {
+        return convertedAmount;
+    }
+
+    public void setConvertedAmount(double convertedAmount) {
+        this.convertedAmount = convertedAmount;
     }
 
     /**
