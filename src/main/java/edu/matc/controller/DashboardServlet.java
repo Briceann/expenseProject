@@ -2,7 +2,6 @@ package edu.matc.controller;
 
 import edu.matc.entity.Expense;
 import edu.matc.persistence.ExchangeRatesDao;
-import edu.matc.persistence.ExpenseCategoryDao;
 import edu.matc.persistence.ExpenseDao;
 import edu.matc.rates.ExchangeRates;
 import edu.matc.util.CurrencyConverter;
@@ -35,7 +34,6 @@ import java.util.TreeSet;
 public class DashboardServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(DashboardServlet.class);
     private final ExpenseDao expenseDao = new ExpenseDao();
-    private final ExpenseCategoryDao categoryDao = new ExpenseCategoryDao();
 
     /**
      * Handles GET requests to display the dashboard.

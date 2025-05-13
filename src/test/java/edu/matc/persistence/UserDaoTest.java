@@ -13,22 +13,19 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDaoTest {
-
-    UserDao userDao;
-    private Session HibernateUtil;
+    GenericDao userDao;
 
     @BeforeEach
     void setUp() {
-        userDao = new UserDao();
+        userDao = new GenericDao(User.class);
         Database database = Database.getInstance();
         database.runSQL("cleanDB.sql");
 
     }
 
-
     @Test
     void getByUserID() {
-        User retrievedUser = userDao.getUserById(1);
+        User retrievedUser = (User) userDao.getById(1);
         assertNotNull(retrievedUser);
         assertEquals("Jenny", retrievedUser.getFirstName());
 
@@ -36,40 +33,42 @@ public class UserDaoTest {
 
     @Test
     void updateUser() {
-        User userToUpdate = userDao.getUserById(1);
+        User userToUpdate = (User) userDao.getById(1);
         userToUpdate.setLastName("Jackson");
         userDao.update(userToUpdate);
 
-        User actualUser = userDao.getUserById(1);
-        assertEquals("Jackson", actualUser.getLastName());
+        User actualUser = (User) userDao.getById(1);
+        assertEquals(userToUpdate.getLastName(), actualUser.getLastName());
     }
 
     @Test
     void insertUser() {
         User userToInsert = new User("Cyn", "Skai", "cskai", "cskai20@gmail.com");
-        int insertedUserId = userDao.insertUser(userToInsert);
+        int insertedUserId = userDao.insert(userToInsert);
         assertNotEquals(0, insertedUserId);
-        User insertedUser = userDao.getUserById(insertedUserId);
+        User insertedUser = (User) userDao.getById(insertedUserId);
         assertEquals("Cyn", insertedUser.getFirstName());
     }
 
     @Test
     void deleteUser() {
-        userDao.delete(userDao.getUserById(2));
-        assertNull(userDao.getUserById(2));
+        User user = (User) userDao.getById(2);
+        assertNotNull(user);
+        userDao.delete(user);
+        assertNull(userDao.getById(2));
     }
 
     @Test
     void deleteWithExpenses() {
-        User userToBeDeleted = userDao.getUserById(1);
+        User userToBeDeleted = (User) userDao.getById(1);
         List<Expense> expenses = userToBeDeleted.getExpenses();
         int expenseNumber1 = expenses.get(0).getExpenseId();
         int expenseNumber2 = expenses.get(1).getExpenseId();
 
         userDao.delete(userToBeDeleted);
-        assertNull(userDao.getUserById(1));
+        assertNull(userDao.getById(1));
 
-        ExpenseDao expenseDao = new ExpenseDao();
+        GenericDao expenseDao = new GenericDao(Expense.class);
         assertNull(expenseDao.getById(expenseNumber1));
         assertNull(expenseDao.getById(expenseNumber2));
 
@@ -77,7 +76,7 @@ public class UserDaoTest {
 
     @Test
     void getAllUsers() {
-        List<User> users = userDao.getAllUsers();
+        List<User> users = userDao.getAll();
         assertEquals(3, users.size());
     }
 

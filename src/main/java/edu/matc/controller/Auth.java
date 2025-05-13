@@ -7,7 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.matc.auth.*;
 import edu.matc.entity.User;
-import edu.matc.persistence.UserDao;
+import edu.matc.persistence.GenericDao;
 import edu.matc.util.PropertiesLoader;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -93,9 +93,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 userName = validate(tokenResponse);
                 req.getSession().setAttribute("userName", userName);
 
-                UserDao userDao = new UserDao();
-
-                //ToDo not returning a list of users......check if user is null
+                GenericDao<User> userDao = new GenericDao<>(User.class);
                 List<User> users = userDao.getByPropertyEqual("username", userName);
                 User user;
 

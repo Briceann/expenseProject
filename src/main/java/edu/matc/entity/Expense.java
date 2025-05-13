@@ -1,6 +1,7 @@
 package edu.matc.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 
@@ -11,10 +12,10 @@ import java.time.LocalDate;
 @Entity (name = "Expense")
 @Table(name = "expenses")
 public class Expense {
-    //private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "native,", strategy = "native")
     @Column(name = "expense_id")
     private int expenseId;
 

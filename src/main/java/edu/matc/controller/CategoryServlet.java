@@ -1,7 +1,6 @@
 package edu.matc.controller;
 
 import edu.matc.entity.ExpenseCategory;
-import edu.matc.persistence.ExpenseCategoryDao;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+import edu.matc.persistence.GenericDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,8 @@ import org.apache.logging.log4j.Logger;
  */
 @WebServlet("/addCategory")
 public class CategoryServlet extends HttpServlet {
-    private final ExpenseCategoryDao categoryDao = new ExpenseCategoryDao();
+
+    GenericDao<ExpenseCategory> categoryDao = new GenericDao<>(ExpenseCategory.class);
     private static final Logger logger = LogManager.getLogger(ExpenseServlet.class);
 
     /**
