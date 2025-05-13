@@ -1,6 +1,7 @@
 package edu.matc.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Timestamp;
 
@@ -11,6 +12,7 @@ public class ExpenseCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "native,", strategy = "native")
     @Column(name = "category_id")
     private int categoryId;
 

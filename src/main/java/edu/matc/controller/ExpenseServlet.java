@@ -3,9 +3,8 @@ package edu.matc.controller;
 import edu.matc.entity.Expense;
 import edu.matc.entity.ExpenseCategory;
 import edu.matc.entity.User;
-import edu.matc.persistence.ExpenseCategoryDao;
 import edu.matc.persistence.ExpenseDao;
-import edu.matc.persistence.UserDao;
+import edu.matc.persistence.GenericDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,10 +31,12 @@ import java.util.Map;
  */
 @WebServlet("/expense")
 public class ExpenseServlet extends HttpServlet {
+
+    GenericDao<Expense> expenseDao = new GenericDao<>(Expense.class);
+    GenericDao<User> userDao = new GenericDao<>(User.class);
+    GenericDao<ExpenseCategory> categoryDao = new GenericDao<>(ExpenseCategory.class);
     private static final Logger logger = LogManager.getLogger(ExpenseServlet.class);
-    private final ExpenseDao expenseDao = new ExpenseDao();
-    private final ExpenseCategoryDao categoryDao = new ExpenseCategoryDao();
-    private final UserDao userDao = new UserDao();
+
 
     /**
      * Handles GET requests for viewing, adding, editing, and deleting expenses.
@@ -98,14 +99,14 @@ public class ExpenseServlet extends HttpServlet {
 
         // Category filter when selected
         if (selectedCategory != null && !selectedCategory.isEmpty()) {
-            expenses = expenseDao.getExpensesByCategory(userId, selectedCategory);
+            expenses = new ExpenseDao().getExpensesByCategory(userId, selectedCategory);
             logger.info("Filtered expenses by category: " + selectedCategory);
         } else {
-            expenses = expenseDao.getExpensesByUserId(userId);
+            expenses = new ExpenseDao().getExpensesByUserId(userId);
         }
 
         // Always load categories for the form
-        List<ExpenseCategory> categories = categoryDao.getAllCategories();
+        List<ExpenseCategory> categories = categoryDao.getAll();
         request.setAttribute("categories", categories);
         request.setAttribute("expenses", expenses);
         request.setAttribute("userId", userId);
@@ -162,7 +163,7 @@ public class ExpenseServlet extends HttpServlet {
             }
 
             int categoryId = Integer.parseInt(categoryIdParam);
-            ExpenseCategory category = categoryDao.getCategoryById(categoryId);
+            ExpenseCategory category = categoryDao.getById(categoryId);
             if (category == null) {
                 logger.error(" No category found for categoryId = " + categoryId);
                 response.sendRedirect("expense?action=add");
@@ -193,6 +194,7 @@ public class ExpenseServlet extends HttpServlet {
      */
     private void deleteExpense(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         int expenseId = Integer.parseInt(request.getParameter("id"));
         Expense expense = expenseDao.getById(expenseId);
 
@@ -213,12 +215,13 @@ public class ExpenseServlet extends HttpServlet {
      */
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         int expenseId = Integer.parseInt(request.getParameter("id"));
         Expense existingExpense = expenseDao.getById(expenseId);
 
         if (existingExpense != null) {
             //  Always load categories
-            List<ExpenseCategory> categories = categoryDao.getAllCategories();
+            List<ExpenseCategory> categories = categoryDao.getAll();
             request.setAttribute("categories", categories);
 
             request.setAttribute("expense", existingExpense);
@@ -235,7 +238,7 @@ public class ExpenseServlet extends HttpServlet {
      */
     private void showAddForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<ExpenseCategory> categories = categoryDao.getAllCategories();
+        List<ExpenseCategory> categories = categoryDao.getAll();
         logger.info("Categories loaded for form: " + categories.size());
         request.setAttribute("categories", categories);
         request.getRequestDispatcher("/addExpense.jsp").forward(request, response);
@@ -248,7 +251,6 @@ public class ExpenseServlet extends HttpServlet {
      */
     private void updateExpense(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("Updating expense");
 
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
@@ -259,7 +261,7 @@ public class ExpenseServlet extends HttpServlet {
             LocalDate date = LocalDate.parse(request.getParameter("date"));
 
             Expense expense = expenseDao.getById(expenseId);
-            ExpenseCategory category = categoryDao.getCategoryById(categoryId);
+            ExpenseCategory category = categoryDao.getById(categoryId);
 
             if (expense == null || category == null) {
                 logger.error("Invalid Expense or Category update request.");

@@ -30,83 +30,6 @@ public class ExpenseDao {
     SessionFactory sessionFactory = SessionFactoryProvider.getSessionFactory();
 
     /**
-     * Get expense by id.
-     *
-     * @param id Expense id.
-     * @return Expense corresponding to the given id.
-     */
-    public Expense getById(int id) {
-        Session session = sessionFactory.openSession();
-        Expense expense = session.get(Expense.class, id);
-        session.close();
-        return expense;
-    }
-
-    /**
-     * Update an expense.
-     *
-     * @param expense Expense to be updated.
-     */
-    public void update(Expense expense) {
-        logger.debug("Before update: " + expense);
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.update(expense);
-        transaction.commit();
-        logger.debug("Updating expense: " + expense.getExpenseId());
-        session.close();
-    }
-
-    /**
-     * Insert a new expense.
-     *
-     * @param expense Expense to be inserted.
-     * @return The generated id for the new expense.
-     */
-    public int insert(Expense expense) {
-        int expenseId = 0;
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.persist(expense);
-        transaction.commit();
-        expenseId = expense.getExpenseId();
-        session.close();
-        return expenseId;
-    }
-
-    /**
-     * Delete an expense.
-     *
-     * @param expense Expense to be deleted.
-     */
-    public void delete(Expense expense) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.delete(expense);
-        transaction.commit();
-        session.close();
-    }
-
-    /**
-     * Return a list of all expenses.
-     *
-     * @return All expenses.
-     */
-    public List<Expense> getAllExpenses() {
-        Session session = sessionFactory.openSession();
-
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Expense> query = session.getCriteriaBuilder().createQuery(Expense.class);
-        Root<Expense> root = query.from(Expense.class);
-        List<Expense> expenses = session.createQuery(query).getResultList();
-
-        logger.debug("The list of expenses: " + expenses);
-        session.close();
-
-        return expenses;
-    }
-
-    /**
      * Retrieves all expenses belonging to a specific user
      *
      * @param userId the user ID
@@ -121,7 +44,6 @@ public class ExpenseDao {
         query.select(root).where(builder.equal(root.get("user").get("userId"), userId)).orderBy(builder.desc(root.get("date")));
         List<Expense> expenses = session.createQuery(query).getResultList();
         logger.debug("Expenses for userId {}: {}", userId, expenses);
-        //session.close();
         return expenses;
     }
 
@@ -148,7 +70,6 @@ public class ExpenseDao {
         for (Object[] row : results) {
             totals.put((String) row[0], ((Number) row[1]).doubleValue());
         }
-
         session.close();
         return totals;
     }

@@ -14,18 +14,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ExpenseDaoTest {
 
-    ExpenseDao expenseDao;
+    GenericDao genericDao;
+    GenericDao userDao;
+    GenericDao categoryDao;
 
     @BeforeEach
     void setUp() {
-        expenseDao = new ExpenseDao();
+        genericDao = new GenericDao(Expense.class);
+        userDao = new GenericDao(User.class);
         Database database = Database.getInstance();
         database.runSQL("cleanDB.sql");
     }
 
     @Test
     void getById() {
-        Expense retrievedExpense = expenseDao.getById(1);
+        Expense retrievedExpense = (Expense)genericDao .getById(1);
         assertNotNull(retrievedExpense);
         assertEquals("February Rent", retrievedExpense.getDescription());
         assertEquals(1, retrievedExpense.getUser().getUserId());
@@ -33,22 +36,23 @@ public class ExpenseDaoTest {
 
     @Test
     void update() {
-        Expense expenseToUpdate = expenseDao.getById(1);
+        Expense expenseToUpdate = (Expense) genericDao.getById(1);
         expenseToUpdate.setAmount(1500.00);
-        expenseDao.update(expenseToUpdate);
+        genericDao.update(expenseToUpdate);
 
-        Expense actualExpense = expenseDao.getById(1);
+        Expense actualExpense = (Expense) genericDao.getById(1);
         assertEquals(1500.00, actualExpense.getAmount());
     }
 
     @Test
     void insert() {
 
-        UserDao userDao = new UserDao();
-        ExpenseCategoryDao categoryDao = new ExpenseCategoryDao();
+        GenericDao<ExpenseCategory> categoryDao = new GenericDao<>(ExpenseCategory.class);
+        GenericDao<Expense> expenseDao = new GenericDao<>(Expense.class);
+        GenericDao<User> userDao = new GenericDao<>(User.class);
 
-        User user = userDao.getUserById(2);
-        ExpenseCategory category = categoryDao.getCategoryById(4);
+        User user = userDao.getById(2);
+        ExpenseCategory category = categoryDao.getById(4);
 
         Expense expense = new Expense(user, category, 19.99, LocalDate.of(2025, 3, 10), "Netflix subscription");
         int insertedExpenseId = expenseDao.insert(expense);
@@ -57,18 +61,19 @@ public class ExpenseDaoTest {
 
         assertEquals(expense.getDescription(), retrievedExpense.getDescription());
         assertEquals("Princess", expense.getUser().getFirstName());
-
     }
 
     @Test
     void delete() {
-        Expense expenseToDelete = expenseDao.getById(5);
-        assertNull(expenseDao.getById(5));
+        Expense expenseToDelete = (Expense) genericDao.getById(4);
+        assertNotNull(expenseToDelete);
+        genericDao.delete(expenseToDelete);
+        assertNull(genericDao.getById(4));
     }
 
     @Test
     void getAllExpenses() {
-        List<Expense> expenses = expenseDao.getAllExpenses();
+        List<Expense> expenses = genericDao.getAll();
         assertEquals(4, expenses.size());
     }
 
