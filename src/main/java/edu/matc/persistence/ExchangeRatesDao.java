@@ -37,10 +37,14 @@ public class ExchangeRatesDao {
                 .GET()
                 .build();
 
+        // Send the request and get the response body as a string
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        // Parse the JSON response using Jackson's ObjectMapper
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.body());
+
+        // Navigate to the rates JSON node that holds the actual exchange rates
         JsonNode ratesNode = root.get("rates");
 
         // Convert the "rates" node into an ExchangeRates object

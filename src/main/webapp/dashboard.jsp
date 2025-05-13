@@ -42,18 +42,17 @@
             </select>
         </form>
 
-        <form method="get" action="dashboard">
-            <label for="currency">Display currency:</label>
-            <select name="currency" id="currency">
-                <option value="USD" ${currencyCode == 'USD' ? 'selected' : ''}>USD</option>
-                <option value="EUR" ${currencyCode == 'EUR' ? 'selected' : ''}>EUR</option>
-                <option value="JPY" ${currencyCode == 'JPY' ? 'selected' : ''}>JPY</option>
-                <option value="GBP" ${currencyCode == 'GBP' ? 'selected' : ''}>GBP</option>
-                <!-- Add more as needed -->
+        <div class="mb-4 p-3 bg-dark rounded d-flex align-items-center gap-3">
+        <form method="get" action="dashboard" class="d-flex align-items-center gap-2">
+            <label for="currency" class="form-label text-white mb-0">Display currency:</label>
+            <select name="currency" id="currency" class="form-select bg-dark text-white select2" style="width: 200px;">
+                <c:forEach var="code" items="${availableCurrencies}">
+                    <option value="${code}" ${code == currencyCode ? 'selected' : ''}>${code}</option>
+                </c:forEach>
             </select>
-
-            <input type="submit" value="Convert">
+            <button type="submit" class="btn btn-primary">Convert</button>
         </form>
+    </div>
 
 
         <table class="table table-dark table-striped">
@@ -79,6 +78,23 @@
         </table>
     </div>
 </div>
+
+<!-- Select2 Initialization -->
+<script>
+    $(document).ready(function () {
+        $('#currency').select2({
+            placeholder: "Select a currency",
+            allowClear: true,
+            templateResult: function (data) {
+                return data.id || data.text;
+            },
+            templateSelection: function (data) {
+                return data.id || data.text;
+            }
+        });
+    });
+</script>
+
 <%@ include file="includes/footer.jsp" %>
 </body>
 </html>

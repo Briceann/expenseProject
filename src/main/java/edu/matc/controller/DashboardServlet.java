@@ -17,8 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * Handles the display of the dashboard view.
  * Retrieves the currently logged in user's ID from the session
@@ -79,21 +83,42 @@ public class DashboardServlet extends HttpServlet {
 
         // Currency conversion logic
         try {
-            // Get selected currency from request param, fallback to USD
+            // Get selected currency from request param, default to USD
             String selectedCurrency = request.getParameter("currency");
             if (selectedCurrency == null || selectedCurrency.isEmpty()) {
                 selectedCurrency = "USD";
             }
 
+            // Fetch exchange rates using USD as the base currency
             ExchangeRates rates = new ExchangeRatesDao().getExchangeRates("USD");
 
+            // Convert the amount of each recent expense to the selected currency
             for (Expense e : recentExpenses) {
                 double converted = CurrencyConverter.convert(e.getAmount(), rates, selectedCurrency);
                 e.setConvertedAmount(converted);
             }
 
+            // Set the selected currency code
             request.setAttribute("currencyCode", selectedCurrency);
 
+            // Dynamically build the list of available currency codes
+            Set<String> currencyCodes = new TreeSet<>();
+            for (Field field : rates.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(rates);
+                    // Only include fields that have valid exchange rates
+                    if (value instanceof Number) {
+                        // convert fields to upper case
+                        String fieldName = field.getName();
+                        String code = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1).toLowerCase();
+                        currencyCodes.add(code.toUpperCase());
+                    }
+                } catch (IllegalAccessException ignored) {}
+            }
+
+            // Attach available currency codes to the request for use in dropdowns
+            request.setAttribute("availableCurrencies", currencyCodes);
         } catch (Exception e) {
             request.setAttribute("conversionError", "Could not convert currency.");
             logger.error("Currency conversion failed", e);

@@ -17,8 +17,14 @@
     <!-- Google Material Icons (optional) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- jQuery (only needed for DataTables) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Bootstrap 5 JS Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -131,5 +137,30 @@
             color: #f1f1f1;
             font-weight: 500;
         }
+
+        /* Make the input box (selected value) dark with white text */
+        .select2-selection--single {
+            background-color: #1e1e1e !important;
+            color: #ffffff !important;
+            border: 1px solid #444 !important;
+        }
+
+        /* Make the selected text inside the box white */
+        .select2-selection__rendered {
+            color: #ffffff !important;
+        }
+
+        /* Make the dropdown list dark with white text */
+        .select2-results__option {
+            background-color: #1e1e1e !important;
+            color: #ffffff !important;
+        }
+
+        /* Highlighted (hovered) dropdown item */
+        .select2-results__option--highlighted {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+        }
+
     </style>
 </head>

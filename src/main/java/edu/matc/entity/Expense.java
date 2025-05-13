@@ -35,7 +35,7 @@ public class Expense {
     @Column(name = "description")
     private String description;
 
-    private transient double convertedAmount;
+    private transient double convertedAmount; // used to store the result of currency conversion
     /**
      * No-argument constructor
      */
