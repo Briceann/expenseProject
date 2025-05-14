@@ -54,3 +54,4 @@
 ### Week 16
 * Implemented the exchange rate API so a user can can get their amount in any currency they select
 * Trying to refactor my code to use generic Dao
+* Finalized my project and made the demo videos for the project

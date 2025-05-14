@@ -37,7 +37,6 @@ public class DashboardServlet extends HttpServlet {
 
     /**
      * Handles GET requests to display the dashboard.
-     *
      * Retrieves category totals and recent expenses for the user.
      * If the user is not logged in, redirects to the login page.
      *
@@ -49,7 +48,6 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
 
         // Retrieve user ID from session
       Object userIdObj = request.getSession().getAttribute("userId");
@@ -126,7 +124,7 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("selectedDays", days);
 
         // Forward the data to dashboard.jsp for display
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/dashboard.jsp"); //issue with dashboard mapping
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/dashboard.jsp");
         dispatcher.forward(request, response);
     }
 }

@@ -1,5 +1,3 @@
-<%@ page import="edu.matc.entity.Expense" %>
-<%@ page import="java.util.List" %>
 <%@include file="taglib.jsp"%>
 <%@ include file="includes/nav.jsp" %>
 

@@ -55,8 +55,8 @@
 
 ## **Week 16**
 - [x] Implemented the exchange rate API so a user can can get their amount in any currency they select
-- [ ] Finalize all documentation
-- [ ] Weekly reflection
-- [ ] Final touches before code complete
-- [ ] Final Presentation
-- [ ] Create video, add video link to readme.md
+- [x] Finalize all documentation
+- [x] Weekly reflection
+- [x] Final touches before code complete
+- [x] Final Presentation
+- [x] Create video, add video link to readme.md
