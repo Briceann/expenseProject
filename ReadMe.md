@@ -27,5 +27,5 @@ application will help users make informed financial decisions and stay within th
 8. API-Exchange Rates API
 
 ## Link to Demo Videos
-https://youtu.be/9LGQWKjAR1M
-https://youtu.be/VK5NAeBIsxM
+- https://youtu.be/9LGQWKjAR1M (Project Code)
+- https://youtu.be/VK5NAeBIsxM (Project demo)
